@@ -3,8 +3,8 @@
 // Só uma coisa é nova: Math.random(), que sorteia um número entre 0 e 1.
 const prompt = require("prompt-sync")();
 const heroi = require("./heroi");
-const sorte = require("./sistemas/sorte");
 const vila = require("./regioes/vila")
+const floresta =require ("./regioes/floresta")
 // ===== CONTROLE DO JOGO =====
 let local = "vila";        // onde o herói está agora
 let jogando = true;        // o jogo continua enquanto for true
@@ -28,44 +28,11 @@ while (jogando) {
     jogando = false;
   } 
    if (local === "vila") {
-  
+    local = vila(heroi)
   } else if (local === "floresta") {
-    console.log("");
-    console.log("[FLORESTA] Galhos fechados. Algo se mexe no chão.");
-    
-    if (sorte(0.4)) {
-      console.log("Uma aranha te morde! Você está envenenado por 3 passos.");
-      heroi.veneno = 3;
-    } else {
-      console.log("Era só o vento.");
-    }
-    console.log("1 - seguir para a ponte   2 - voltar para a vila");
-    let escolha = prompt("> ");
-    if (escolha === "1") {
-      local = "ponte";
-    } else if (escolha === "2") {
-      local = "vila";
-    }
+    local = floresta(heroi)
   } else if (local === "poco") {
-    console.log("");
-    console.log("[POÇO] Um poço antigo. Não dá para ver o fundo.");
-    console.log("1 - voltar para a vila   2 - beber água (recupera 3 de vida)");
-    if (heroi.inventario.includes("moeda furada")) {
-      console.log("3 - jogar a moeda furada no poço");
-    }
-    let escolha = prompt("> ");
-    if (escolha === "1") {
-      local = "vila";
-    } else if (escolha === "2") {
-      while (heroi.vida < 10)
-        heroi.vida = heroi.vida + 3
-      console.log("A água é gelada. Vida: " + heroi.vida);
-    } else if (escolha === "3" && heroi.inventario.includes("moeda furada")) {
-      console.log("A moeda cai sem fazer barulho. Uma corda sobe do fundo do poço, sozinha.");
-      heroi.inventario.shift()
-      heroi.inventario.push("corda");
-      console.log("Inventário: " + heroi.inventario);
-    }
+    
   } else if (local === "ponte") {
     console.log("");
     console.log("[PONTE] A ponte para o farol caiu. Do outro lado, o farol apagado.");
